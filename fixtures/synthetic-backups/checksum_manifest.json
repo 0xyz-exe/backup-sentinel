@@ -1,0 +1,9 @@
+{
+  "valid_app_backup.zip": "7be5c3a3db187f750232b8ab992b771948460961e9503f3713a565e44a8c9dc4",
+  "corrupted_archive.zip": "05dd13b44fb773bf9481cd367af4262933fbd0051e23be93c283a364a57103c6",
+  "traversal_attack.zip": "ceb142bdd324ea586230bcba73ec080eb402ce0d9ee1b39dfce1f0336ae2ee82",
+  "valid_sys_backup.tar.gz": "0b451bfd7ea2d5288cb476a93815ad0d5cb08017c39d0d6a2208662cd960e19e",
+  "valid_postgres.dump": "348cc3baac5a7eff7699bf47e0d3d746ef5a61fe5ed4bd8a56c3659d8195ea37",
+  "valid_database.sql": "ea86cf2e8eaeed8f802d3b5fb61c52f3b711d06846c4a247781f5ea5aa5a9471",
+  "malformed_database.sql": "13acdafd55fae0eb30f792f83aef6b523b640813e72eafe3d826428e5b4118cd"
+}

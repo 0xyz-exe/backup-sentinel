@@ -1,0 +1,50 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          cd apps/api
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install email-validator
+      - name: Seed test fixtures
+        run: |
+          cd apps/api
+          python -m app.cli seed --dir "../../fixtures/synthetic-backups"
+      - name: Run verification & API tests
+        run: |
+          cd apps/api
+          PYTHONPATH=. pytest -v
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          pnpm install
+      - name: Build Next.js application
+        run: |
+          cd apps/web
+          pnpm run build

@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  sentinel-db:
+    image: postgres:16-alpine
+    container_name: sentinel-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: backup_sentinel
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: sentinel_secure_password_replace_in_prod
+    volumes:
+      - sentinel_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel -d backup_sentinel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sentinel-net
+
+  sentinel-api:
+    build:
+      context: ./apps/api
+      dockerfile: ../../deploy/docker/Dockerfile.api
+    container_name: sentinel-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://sentinel:sentinel_secure_password_replace_in_prod@sentinel-db:5432/backup_sentinel
+      SECRET_KEY: sentinel-production-secret-key-replace-with-high-entropy-value
+      ENVIRONMENT: production
+    ports:
+      - "8000:8000"
+    depends_on:
+      sentinel-db:
+        condition: service_healthy
+    volumes:
+      - ./fixtures:/app/fixtures:ro
+      - sentinel_sandbox:/tmp/sentinel_sandboxes
+    networks:
+      - sentinel-net
+
+  sentinel-web:
+    build:
+      context: ./apps/web
+      dockerfile: ../../deploy/docker/Dockerfile.web
+    container_name: sentinel-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://sentinel-api:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - sentinel-api
+    networks:
+      - sentinel-net
+
+volumes:
+  sentinel_pg_data:
+  sentinel_sandbox:
+
+networks:
+  sentinel-net:
+    driver: bridge
