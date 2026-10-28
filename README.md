@@ -30,9 +30,32 @@ Backup Sentinel answers five critical operational questions:
 
 ---
 
-## 📸 Dashboard Preview
+## 📸 Platform Tour & Screenshots
 
-![Backup Sentinel Dashboard](docs/screenshots/dashboard.png)
+### 1. Operations Overview & Verification Pipelines
+Real-time operational health, RTO/RPO metrics, and active 7-stage verification execution.
+
+![Overview & Verification Pipelines](docs/screenshots/overview.png)
+
+### 2. Discovered Artifacts & Integrity Verification
+Inspection table with cryptographic SHA-256 state tracking, archive format detection, and one-click verification triggers.
+
+![Discovered Artifacts](docs/screenshots/artifacts.png)
+
+### 3. Isolated Recovery Testing Sandbox
+Automated disposable sandbox verification runs, showing actual measured restore durations, RTO compliance evaluations, integrity assertions, and sandbox destruction confirmations.
+
+![Recovery Testing Sandbox](docs/screenshots/recovery.png)
+
+### 4. Cryptographic Tamper-Evident Audit Trail
+Append-only immutable audit ledger with SHA-256 hash chaining and on-demand mathematical verification of audit integrity.
+
+![Cryptographic Audit Trail](docs/screenshots/audit.png)
+
+### 5. Storage Adapters & Boundary Enforcement
+Centralized management for local filesystem roots (with path containment checks) and S3 object storage adapters.
+
+![Storage Adapters](docs/screenshots/sources.png)
 
 ---
 
